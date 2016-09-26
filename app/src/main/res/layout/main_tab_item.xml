@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/tv_main_indicator"
+          android:textSize="16sp"
+          android:text="首页"
+          android:drawablePadding="3dp"
+          android:gravity="center_horizontal"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:drawableTop="@mipmap/ic_launcher">
+</TextView>

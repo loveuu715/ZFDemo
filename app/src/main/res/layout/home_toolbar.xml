@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:id="@+id/rl_home_toolbar_right_root"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/iv_home_toolbar_left"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:padding="7dp"
+            android:src="@mipmap/down_arrow"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="-5dp"
+            android:layout_toRightOf="@id/iv_home_toolbar_left"
+            android:gravity="center_vertical"
+            android:text="深圳"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_home_toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="标题"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"/>
+
+    <ImageView
+        android:id="@+id/iv_home_toolbar_right"
+        android:padding="18dp"
+        android:layout_width="54dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/plus_arrow"/>
+
+
+</RelativeLayout>
