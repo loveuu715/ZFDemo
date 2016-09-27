@@ -5,6 +5,8 @@ package com.loveuu.vv.mvp;
  */
 
 public interface BasePresenter<V extends BaseView> {
+
+
     void onAttachView(V view);
 
     void onDestroy();
