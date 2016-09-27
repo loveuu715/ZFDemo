@@ -14,4 +14,7 @@
 
     <!--xrecyclerview-->
     <dimen name="textandiconmargin">10dp</dimen>
+
+    <dimen name="text_14">14sp</dimen>
+
 </resources>

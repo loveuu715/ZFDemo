@@ -1,7 +1,7 @@
 package com.loveuu.vv.api.core;
 
 import com.loveuu.vv.BaseApplication;
-import com.loveuu.vv.mvp.activity.RequestLogInterceptor;
+import com.loveuu.vv.api.RequestLogInterceptor;
 
 import java.io.File;
 import java.io.IOException;

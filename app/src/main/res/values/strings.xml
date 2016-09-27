@@ -7,6 +7,13 @@
     <string name="title_message">我的消息</string>
 
 
+    <string name="account">手机号码</string>
+    <string name="password">密码</string>
+    <string name="btn_login">登\t\t录</string>
+    <string name="btn_register">注\t\t册</string>
+    <string name="verification_code">输入验证码进行验证</string>
+
+
     <!--XRecyclerView start-->
     <string name="listview_header_hint_normal">pull to refresh</string>
     <string name="listview_header_hint_release">release to start refresh</string>

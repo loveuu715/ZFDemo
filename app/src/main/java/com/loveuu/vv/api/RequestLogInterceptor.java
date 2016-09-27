@@ -1,4 +1,4 @@
-package com.loveuu.vv.mvp.activity;
+package com.loveuu.vv.api;
 
 import android.text.TextUtils;
 import android.util.Log;
