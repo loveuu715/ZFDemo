@@ -1,4 +1,4 @@
-package com.loveuu.vv.utils.exception;
+package com.loveuu.vv.app.exception;
 
 /**
  * Created by VV on 2016/9/21.

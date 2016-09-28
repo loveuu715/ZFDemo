@@ -1,4 +1,4 @@
-package com.loveuu.vv.utils.exception;
+package com.loveuu.vv.app.exception;
 
 import android.content.Context;
 import android.os.Looper;

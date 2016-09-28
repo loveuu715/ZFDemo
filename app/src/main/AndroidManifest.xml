@@ -54,6 +54,12 @@
             android:launchMode="singleTask"
             ></activity>
 
+        <!-- 登录界面 -->
+        <activity
+            android:name=".mvp.activity.LoginActivity"
+            android:launchMode="singleTop"
+            ></activity>
+
         <!-- 设置界面 -->
         <activity
             android:name=".mvp.activity.SettingActivity"

@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.loveuu.vv.BaseApplication;
-import com.loveuu.vv.utils.exception.LocalExceptionHelper;
+import com.loveuu.vv.app.exception.LocalExceptionHelper;
 
 import java.io.IOException;
 

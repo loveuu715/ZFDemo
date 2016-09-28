@@ -9,4 +9,7 @@ public interface SPKeys {
     String KEY_ACCOUNT ="USER_ACCOUNT";
     String KEY_USER_TYPE = "USER_TYPE";
     String KEY_SIGN = "SIGN";
+    String KEY_IDENTIFIER = "IDENTIFIER";
+    String  KEY_IS_MOBILE = "IS_MOBILE";
+    String KEY_IS_ZHOGNYUAN = "IS_ZHONGYUAN";
 }

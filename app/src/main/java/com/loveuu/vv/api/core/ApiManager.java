@@ -2,6 +2,7 @@ package com.loveuu.vv.api.core;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.loveuu.vv.app.AppConstants;
 import com.loveuu.vv.app.UserManager;
 import com.loveuu.vv.utils.LogUtil;
 
@@ -40,8 +41,8 @@ public class ApiManager {
         else
             map.clear();
 
-        map.put("token", UserManager.TOKEN);
-        map.put("secret_key", UserManager.KEY);
+        map.put("token", UserManager.getInstance().getToken());
+        map.put("secret_key", AppConstants.SECRET_KEY);
         if (isAddUserType)
             map.put("user_type", USER_TYPE);
 

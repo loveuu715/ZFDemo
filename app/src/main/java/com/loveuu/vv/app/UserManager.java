@@ -5,6 +5,7 @@ import com.loveuu.vv.utils.SPUtil;
 
 /**
  * Created by VV on 2016/9/22.
+ * 用户本地信息管理类
  */
 
 public class UserManager {
@@ -74,5 +75,49 @@ public class UserManager {
         SPUtil.removeValue(SPKeys.KEY_SIGN);
     }
 
+    public void saveIdentifier(String identifier) {
+        SPUtil.putString(SPKeys.KEY_IDENTIFIER, identifier);
+    }
 
+    public String getIdentifier() {
+        return SPUtil.getString(SPKeys.KEY_IDENTIFIER);
+    }
+
+    public void clearIdentifier(){
+        SPUtil.removeValue(SPKeys.KEY_IDENTIFIER);
+    }
+
+    public void saveIsMobile(boolean isMobile){
+        SPUtil.putBoolean(SPKeys.KEY_IS_MOBILE, isMobile);
+    }
+
+    public boolean isMobile(){
+        return SPUtil.getBoolean(SPKeys.KEY_IS_MOBILE);
+    }
+
+    public void clearIsMobile(){
+        SPUtil.removeValue(SPKeys.KEY_IS_MOBILE);
+    }
+
+    public void saveIsZhongYuan(boolean isZhongYuan){
+        SPUtil.putBoolean(SPKeys.KEY_IS_ZHOGNYUAN, isZhongYuan);
+    }
+
+    public boolean isZhongYuan(){
+        return SPUtil.getBoolean(SPKeys.KEY_IS_ZHOGNYUAN);
+    }
+
+    public void clearIsZhongYuan(){
+        SPUtil.removeValue(SPKeys.KEY_IS_ZHOGNYUAN);
+    }
+
+    public void clrearUserInfo(){
+        clearAccount();
+        clearIdentifier();
+        clearIsMobile();
+        clearIsZhongYuan();
+        clearSign();
+        clearToken();
+        clearUserType();
+    }
 }

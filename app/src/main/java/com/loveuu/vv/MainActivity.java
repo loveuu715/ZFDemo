@@ -63,27 +63,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     public void init() {
         initBottomNavigationBar();
-/*
-        Map<String, String> params = ApiManager.getBasicMap(false);
-//        params.put("adcode", Api.ADCODE);
-
-        Api.getString(ApiFactory.INSTANCE.getStringApi().getString(params), this, new ICallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                LogUtil.i("hate", "+++++++++++++++++++result" + result);
-//                Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(int errorCode, String errorMsg) {
-                LogUtil.i("hate", "++++++++++++++++++++++++++++错误" + errorMsg);
-            }
-
-            @Override
-            public void onEmpty() {
-                LogUtil.i("hate", "+++++++++++++++++++++++++空数据");
-            }
-        });*/
     }
 
     private void initBottomNavigationBar() {

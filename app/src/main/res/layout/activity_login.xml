@@ -3,19 +3,19 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:fitsSystemWindows="true"
-              android:orientation="vertical" >
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/login_bg_dark"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/input"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -23,16 +23,16 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="30dp"
                 android:layout_marginTop="50dp"
-                android:src="@mipmap/loginicon" />
+                android:src="@mipmap/loginicon"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/login_account"
+                <com.loveuu.vv.widget.edittext.DelEditText
+                    android:id="@+id/det_login_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -45,15 +45,15 @@
                     android:maxLines="1"
                     android:padding="15dp"
                     android:textColorHint="@color/text_hint"
-                    android:textSize="16.0sp" />
+                    android:textSize="16.0sp"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/login_bg_dark" />
+                    android:background="@color/login_bg_dark"/>
 
-                <EditText
-                    android:id="@+id/login_password"
+                <com.loveuu.vv.widget.edittext.DelEditText
+                    android:id="@+id/det_login_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -66,20 +66,20 @@
                     android:maxLines="1"
                     android:padding="15dp"
                     android:textColorHint="@color/text_hint"
-                    android:textSize="16.0sp" />
+                    android:textSize="16.0sp"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/login_bg_dark" />
+                    android:background="@color/login_bg_dark"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
-                    <EditText
+                    <com.loveuu.vv.widget.edittext.DelEditText
                         android:id="@+id/verification_code"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -94,13 +94,13 @@
                         android:padding="15dp"
                         android:textColorHint="@color/text_hint"
                         android:textSize="16.0sp"
-                        android:visibility="visible" />
+                        android:visibility="visible"/>
 
                     <ImageView
                         android:id="@+id/iv_showCode"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp" />
+                        android:layout_marginLeft="10dp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -116,10 +116,10 @@
                 android:gravity="center"
                 android:text="@string/btn_login"
                 android:textColor="@color/white"
-                android:textSize="18.0sp" />
+                android:textSize="18.0sp"/>
 
             <Button
-                android:id="@+id/new_regist"
+                android:id="@+id/btn_new_regist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -128,17 +128,17 @@
                 android:gravity="center"
                 android:text="@string/btn_register"
                 android:textColor="@color/main_color"
-                android:textSize="18.0sp" />
+                android:textSize="18.0sp"/>
 
             <TextView
-                android:id="@+id/forget_pass_btn"
+                android:id="@+id/tv_forget_pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:text="忘记密码?"
                 android:textColor="@color/main_color"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_14"/>
         </LinearLayout>
     </LinearLayout>
 
