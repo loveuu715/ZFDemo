@@ -4,6 +4,7 @@ import com.loveuu.vv.api.Api;
 import com.loveuu.vv.api.ICallback;
 import com.loveuu.vv.api.apifac.ApiFactory;
 import com.loveuu.vv.app.UserManager;
+import com.loveuu.vv.mvp.BaseModel;
 import com.loveuu.vv.utils.LogUtil;
 import com.loveuu.vv.utils.StringUtil;
 
@@ -15,9 +16,10 @@ import java.util.Map;
 
 /**
  * Created by VV on 2016/9/29.
+ * 登录数据层
  */
 
-public class LoginModel implements ILoginModel {
+public class LoginModel extends BaseModel implements ILoginModel {
 
     @Override
     public <T> void toLogin(final String account, final String password, final ModelCallback<T> callback) {
@@ -32,7 +34,7 @@ public class LoginModel implements ILoginModel {
                 LogUtil.i("hate", "loginResult" + result);
                 JSONObject jsonObject;
                 try {
-                    jsonObject = new JSONObject((String) result);
+                    jsonObject = new JSONObject(result);
                     if (jsonObject.getBoolean("status")) {//状态正常
                         String data = jsonObject.getString("data");
                         JSONObject dataJson = new JSONObject(data);
