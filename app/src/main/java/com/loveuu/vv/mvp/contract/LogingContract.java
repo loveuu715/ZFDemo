@@ -10,11 +10,8 @@ import com.loveuu.vv.mvp.BaseView;
 public interface LogingContract {
 
     interface View extends BaseView<Presenter>{
-        void showProgress();
-        void hideProgress();
         void loginSuccess();
         void loginError(int errorCode, String errorMsg);
-        void networkError(String msg);
     }
 
     interface Presenter extends BasePresenter {
