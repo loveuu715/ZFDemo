@@ -3,15 +3,19 @@ package com.loveuu.vv.mvp.fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loveuu.vv.R;
 import com.loveuu.vv.app.AppConstants;
 import com.loveuu.vv.base.BaseFragment;
+import com.loveuu.vv.bean.HomeLastShareBean;
 import com.loveuu.vv.mvp.activity.SettingActivity;
+import com.loveuu.vv.mvp.adapter.HomeLastShareAdapter;
 import com.loveuu.vv.mvp.contract.HomeContract;
 import com.loveuu.vv.mvp.presenter.HomePresenter;
 import com.loveuu.vv.utils.DialogManager;
+import com.loveuu.vv.utils.LogUtil;
 import com.loveuu.vv.utils.SceneManager;
 import com.loveuu.vv.utils.TipUtil;
 import com.mevv.library.CarouselView;
@@ -22,12 +26,15 @@ import java.util.List;
  * Created by VV on 2016/9/21.
  */
 
-public class HomeFragment extends BaseFragment implements HomeContract.View ,View.OnClickListener {
+public class HomeFragment extends BaseFragment implements HomeContract.View, View.OnClickListener {
 
     private HomeContract.Presenter mPresenter;
 
     private TextView mTitle;
     private CarouselView mCarouselView;
+    private HomeLastShareAdapter mShareAdapter;
+    private List<HomeLastShareBean> mShareBeanList;
+    private ListView mListView;
 
     public static HomeFragment newInstance(String tag) {
         Bundle args = new Bundle();
@@ -47,6 +54,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View ,Vie
         initEvent();
         mPresenter = new HomePresenter(this);
         mPresenter.getBannerList(AppConstants.CURRENT_ADCODE);
+        mPresenter.getShareList();
     }
 
     private void initEvent() {
@@ -61,7 +69,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View ,Vie
         mCarouselView.setOnCarouselClickListener(new CarouselView.OnCarouselClickListener() {
             @Override
             public void onCarouselClick(CarouselView.BannerInfo bannerInfo, int position) {
-                TipUtil.showToast(position+"");
+                TipUtil.showToast(position + "");
             }
         });
 
@@ -71,6 +79,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View ,Vie
                 mPresenter.loadImage(imageView, url);
             }
         });
+        mListView = (ListView) mView.findViewById(R.id.home_listView);
+        mShareAdapter = new HomeLastShareAdapter(mContext, mShareBeanList);
+        mListView.setAdapter(mShareAdapter);
 
     }
 
@@ -108,7 +119,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View ,Vie
     }
 
     @Override
-    public void networkError(String msg) {
+    public void onNetworkError(String msg) {
         TipUtil.showToast(mContext, msg);
     }
 
@@ -120,5 +131,17 @@ public class HomeFragment extends BaseFragment implements HomeContract.View ,Vie
     @Override
     public void showBanner(List<CarouselView.BannerInfo> infoList) {
         mCarouselView.setCarouselData(infoList);
+    }
+
+    @Override
+    public void showShare(List<HomeLastShareBean> shareBeanList) {
+        LogUtil.i("hate", shareBeanList.size()+"----------");
+        this.mShareBeanList = shareBeanList;
+//        if (mShareAdapter != null) {
+//            mShareAdapter.notifyDataSetChanged();
+//        } else {
+//            mShareAdapter = new HomeLastShareAdapter(mContext, mShareBeanList);
+//            mListView.setAdapter(mShareAdapter);
+//        }
     }
 }

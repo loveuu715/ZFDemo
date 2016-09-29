@@ -66,6 +66,7 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
                 int code = bean.getErrcode();
                 LogUtil.i("hate", "code====>" + code);
                 if (code == 4006 || code == 2003) {//token过期
+                    ApiStack.getInstance().cancelAll();
                     BaseApplication.getsMainHandler().post(new Runnable() {
                         @Override
                         public void run() {

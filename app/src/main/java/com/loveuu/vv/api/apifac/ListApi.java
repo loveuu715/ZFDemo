@@ -17,6 +17,9 @@ public interface ListApi {
     @GET("Index/getCarouselImg")
     Observable<BaseResponse> getBannerList(@QueryMap Map<String, String> params);
 
+    @GET("Index/getShareHouse")
+    Observable<BaseResponse> getShareList(@QueryMap Map<String ,String > params);
+
     @GET("Area/getOpenCity")
     Observable<BaseResponse> getLBSCityList(@QueryMap Map<String, String> params);
 }

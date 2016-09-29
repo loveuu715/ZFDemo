@@ -4,12 +4,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loveuu.vv.app.AppConstants;
 import com.loveuu.vv.app.UserManager;
-import com.loveuu.vv.utils.LogUtil;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -32,25 +30,22 @@ public class ApiManager {
 
     /**
      * 设置公共参数
+     *
      * @param isAddUserType 是否添加user_type参数
      * @return Map
      */
     public static Map<String, String> getBasicMap(boolean isAddUserType) {
-        if (map == null)
-            map = new LinkedHashMap<>();
-        else
-            map.clear();
-
+        map = new LinkedHashMap<>();
         map.put("token", UserManager.getInstance().getToken());
         map.put("secret_key", AppConstants.SECRET_KEY);
         if (isAddUserType)
-            map.put("user_type", USER_TYPE);
+            map.put("user_type", UserManager.getInstance().getUserType() + "");
 
         //打印MAP
-        Set<Map.Entry<String, String>> entrySet = map.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            LogUtil.d(API_TAG, "- - - 基本请求参数 ====>" + entry.getKey() + " : " + entry.getValue());
-        }
+//        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+//        for (Map.Entry<String, String> entry : entrySet) {
+//            LogUtil.d(API_TAG, "- - - 基本请求参数 ====>" + entry.getKey() + " : " + entry.getValue());
+//        }
         return map;
     }
 }

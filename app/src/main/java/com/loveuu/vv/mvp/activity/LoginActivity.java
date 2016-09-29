@@ -91,7 +91,7 @@ public class LoginActivity extends BaseActivity implements LogingContract.View {
     }
 
     @Override
-    public void networkError(String msg) {
+    public void onNetworkError(String msg) {
         TipUtil.showToast(this, msg);
     }
 

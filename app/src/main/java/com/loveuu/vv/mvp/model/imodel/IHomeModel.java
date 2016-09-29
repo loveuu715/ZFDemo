@@ -8,4 +8,5 @@ import com.loveuu.vv.mvp.model.ModelCallback;
 
 public interface IHomeModel {
     <T> void getBannerList(String adcode, ModelCallback<T> modelCallback);
+    <T> void getShareList(ModelCallback<T> modelCallback);
 }

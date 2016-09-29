@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.loveuu.vv.BaseApplication;
+import com.loveuu.vv.bean.HomeLastShareBean;
 import com.loveuu.vv.mvp.contract.HomeContract;
 import com.loveuu.vv.mvp.model.HomeModel;
 import com.loveuu.vv.mvp.model.ModelCallback;
@@ -30,7 +31,7 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void getBannerList(String adcode) {
         if (TextUtils.isEmpty(adcode)) {
-            mView.networkError("adcode不能为空");
+            mView.onNetworkError("adcode不能为空");
             return;
         }
         mHomeModel.getBannerList(adcode, new ModelCallback<List<CarouselView.BannerInfo>>() {
@@ -54,18 +55,42 @@ public class HomePresenter implements HomeContract.Presenter {
             @Override
             public void onNetworkError(String msg) {
                 mView.hideProgress();
-                mView.networkError(msg);
+                mView.onNetworkError(msg);
             }
         });
     }
 
     @Override
     public void start() {
-
     }
 
     @Override
     public void loadImage(ImageView imageView, String url) {
         Glide.with(BaseApplication.getApplication()).load(url).crossFade().into(imageView);
+    }
+
+    @Override
+    public void getShareList() {
+
+        mHomeModel.getShareList(new ModelCallback<List<HomeLastShareBean>>() {
+            @Override
+            public void onSuccess(List<HomeLastShareBean> result) {
+                mView.showShare(result);
+            }
+
+            @Override
+            public void onError(int errorCode, String errorMsg) {
+                mView.onError(errorCode, errorMsg);
+            }
+
+            @Override
+            public void onEmpty() {
+            }
+
+            @Override
+            public void onNetworkError(String msg) {
+                mView.onNetworkError(msg);
+            }
+        });
     }
 }

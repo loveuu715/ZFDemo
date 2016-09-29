@@ -11,5 +11,5 @@ public interface BaseView<T> {
 
     void hideProgress();
 
-    void networkError(String msg);
+    void onNetworkError(String msg);
 }

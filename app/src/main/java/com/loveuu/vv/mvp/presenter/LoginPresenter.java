@@ -64,7 +64,7 @@ public class LoginPresenter implements LogingContract.Presenter {
 
             @Override
             public void onNetworkError(String msg) {
-                mView.networkError(msg);
+                mView.onNetworkError(msg);
             }
         });
     }
