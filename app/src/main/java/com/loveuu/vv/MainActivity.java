@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.loveuu.vv.app.UserManager;
 import com.loveuu.vv.base.eventbus.EventObject;
 import com.loveuu.vv.mvp.fragment.ContractorFragment;
 import com.loveuu.vv.mvp.fragment.HomeFragment;
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     @Override
     public void onBackPressed() {
         BaseApplication.getApplication().exit();
+        UserManager.getInstance().clearUserInfo();
         super.onBackPressed();
     }
 

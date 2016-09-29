@@ -11,6 +11,11 @@ import com.loveuu.vv.BaseApplication;
  */
 
 public class NetworkUtil {
+    public static int NETWORK_ERROR = -16;
+    public static int NETWORK_NULL = -18;
+
+
+
 
     /**
      * 网络是否可用

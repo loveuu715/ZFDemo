@@ -12,6 +12,6 @@ public interface ICallback<T> {
 
     void onEmpty();
 
-    void noNetworkError(int code);
+    void noNetworkError(String msg);
 
 }

@@ -79,6 +79,11 @@ public class LoginActivity extends BaseActivity implements LogingContract.View {
     }
 
     @Override
+    public void networkError(String msg) {
+        TipUtil.showToast(this, msg);
+    }
+
+    @Override
     public void setPresenter(LogingContract.Presenter presenter) {
         this.mLoginPresenter = presenter;
     }

@@ -12,4 +12,5 @@ public interface SPKeys {
     String KEY_IDENTIFIER = "IDENTIFIER";
     String  KEY_IS_MOBILE = "IS_MOBILE";
     String KEY_IS_ZHOGNYUAN = "IS_ZHONGYUAN";
+    String KEY_USER_TIME = "USER_TIME";
 }

@@ -1,13 +1,20 @@
 package com.loveuu.vv.mvp.presenter;
 
-import android.os.Handler;
 import android.text.TextUtils;
 
 import com.loveuu.vv.api.Api;
 import com.loveuu.vv.api.ICallback;
 import com.loveuu.vv.api.apifac.ApiFactory;
+import com.loveuu.vv.app.UserManager;
 import com.loveuu.vv.mvp.contract.LogingContract;
-import com.loveuu.vv.utils.NetworkUtil;
+import com.loveuu.vv.utils.LogUtil;
+import com.loveuu.vv.utils.StringUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by VV on 2016/9/28.
@@ -18,7 +25,6 @@ public class LoginPresenter implements LogingContract.Presenter {
     public static int ACCOUNT_NULL = -10;
     public static int ACCOUNT_FORMAT_ERROR = -12;
     public static int PASSWORD_NULL = -14;
-    public static int NETWORK_ERROR = -16;
 
     private LogingContract.View mView;
 
@@ -33,7 +39,7 @@ public class LoginPresenter implements LogingContract.Presenter {
     }
 
     @Override
-    public void login(String account, String password) {
+    public void login(final String account, String password) {
         //登录
         if (TextUtils.isEmpty(account)) {
             mView.loginError(ACCOUNT_NULL, "账号不能为空");
@@ -43,24 +49,51 @@ public class LoginPresenter implements LogingContract.Presenter {
             mView.loginError(ACCOUNT_NULL, "密码不能为空");
             return;
         }
-        if (!NetworkUtil.isNetworkEnable()){
-            mView.loginError(NETWORK_ERROR, "无网络可用");
-            return;
-        }
 
         mView.showProgress();
 
-        Api.getString(ApiFactory.INSTANCE.getStringApi().userLogin(account, password), this, new ICallback<String>() {
+        Map<String, String> params = new HashMap<>();
+        params.put("account", account);
+        params.put("password", password);
+
+        Api.getString(ApiFactory.INSTANCE.getStringApi().userLogin(params), this, new ICallback<String>() {
             @Override
             public void onSuccess(String result) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //TODO 解析数据
+                LogUtil.i("hate", "loginResult" + result);
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(result);
+                    if (jsonObject.getBoolean("status")) {//状态正常
+                        String data = jsonObject.getString("data");
+                        JSONObject dataJson = new JSONObject(data);
+                        String token = dataJson.getString("token");
+                        JSONObject userSignJson = new JSONObject(dataJson.getString("UserSig"));
+                        String expiry_after = userSignJson.getString("TLS.expiry_after");
+                        String identifier = userSignJson.getString("TLS.identifier");
+                        String sign = userSignJson.getString("TLS.sig");
+                        String time = userSignJson.getString("TLS.time");
+
+                        LogUtil.i("hate", "time:"+time);
+                        UserManager.getInstance().saveIdentifier(identifier);
+                        UserManager.getInstance().saveAccount(account);
+                        UserManager.getInstance().saveSign(sign);
+                        UserManager.getInstance().saveToken(token);
+                        boolean isMobile = StringUtil.isMobileNo(account);
+                        LogUtil.i("hate", "isMobile:"+isMobile);
+                        UserManager.getInstance().saveUserType(isMobile ? 1 : 2);
+                        LogUtil.i("hate", "userType:"+UserManager.getInstance().getUserType());
+                        UserManager.getInstance().saveIsMobile(isMobile);
+                        UserManager.getInstance().saveIsZhongYuan(!isMobile);
+                        UserManager.getInstance().saveTime(time);
                         mView.loginSuccess();
                         mView.hideProgress();
+                    } else {
+                        mView.loginError(jsonObject.getInt("errcode"), jsonObject.getString("info"));
+                        mView.hideProgress();
                     }
-                }, 3000);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -75,8 +108,8 @@ public class LoginPresenter implements LogingContract.Presenter {
             }
 
             @Override
-            public void noNetworkError(int code) {
-                mView.loginError(NETWORK_ERROR, "网络异常");
+            public void noNetworkError(String msg) {
+                mView.networkError(msg);
                 mView.hideProgress();
             }
         });

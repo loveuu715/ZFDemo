@@ -111,7 +111,19 @@ public class UserManager {
         SPUtil.removeValue(SPKeys.KEY_IS_ZHOGNYUAN);
     }
 
-    public void clrearUserInfo(){
+    public void saveTime(String time){
+        SPUtil.putString(SPKeys.KEY_USER_TIME, time);
+    }
+
+    public String getTime(){
+        return SPUtil.getString(SPKeys.KEY_USER_TIME);
+    }
+
+    public void clearTime(){
+        SPUtil.removeValue(SPKeys.KEY_USER_TIME);
+    }
+
+    public void clearUserInfo(){
         clearAccount();
         clearIdentifier();
         clearIsMobile();
@@ -119,5 +131,6 @@ public class UserManager {
         clearSign();
         clearToken();
         clearUserType();
+        clearTime();
     }
 }
