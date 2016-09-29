@@ -1,8 +1,15 @@
 package com.loveuu.vv.api.core;
 
+import android.app.Activity;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.loveuu.vv.BaseApplication;
 import com.loveuu.vv.bean.BaseResponse;
+import com.loveuu.vv.mvp.activity.LoginActivity;
+import com.loveuu.vv.utils.ActivityManager;
+import com.loveuu.vv.utils.DialogManager;
 import com.loveuu.vv.utils.LogUtil;
+import com.loveuu.vv.utils.SceneManager;
 
 import rx.Subscriber;
 
@@ -56,13 +63,32 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
                     }
                 }
             } else {//请求失败
-                onMyError(bean.getErrcode(), bean.getInfo());
+                int code = bean.getErrcode();
+                LogUtil.i("hate", "code====>" + code);
+                if (code == 4006 || code == 2003) {//token过期
+                    BaseApplication.getsMainHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            final Activity activity = ActivityManager.getInstances().getTopActivity();
+                            if (activity == null) {//只有主界面在
+                                SceneManager.toScene(BaseApplication.getApplication(), LoginActivity.class, null);
+//                                EventBus.getDefault().post(new EventObject("信息失效,请重新登录.", EventIds.TOKEN_INVALID));
+                            } else {
+                                DialogManager.showOfflineDialog(activity);
+                            }
+                        }
+                    });
+                } else {
+                    //TODO 错误代码处理
+//                    ErrorCodeProcess.getInstance().processErrorCode(bean.getErrcode());
+                    onMyError(bean.getErrcode(), bean.getInfo());
+                }
             }
         } else {
             //如果没返回数据没指向BaseResponse，直接返回原始json数据
             try {
                 String jsonStr = ApiManager.objectMapper.writeValueAsString(t);
-                LogUtil.i(TAG, "请求数据(非BaseResponse):"+jsonStr);
+                LogUtil.i(TAG, "请求数据(非BaseResponse):" + jsonStr);
                 onMyNext(jsonStr);
             } catch (JsonProcessingException e) {
                 onMyError(LOCAL_ERROR_CODE, e.getMessage());

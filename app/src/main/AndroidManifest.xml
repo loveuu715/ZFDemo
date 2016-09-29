@@ -48,6 +48,9 @@
             </intent-filter>
         </activity>
 
+        <!--&lt;!&ndash; app服务 &ndash;&gt;-->
+        <!--<service android:name=".app.AppService"/>-->
+
         <!-- 主界面 -->
         <activity
             android:name=".MainActivity"

@@ -9,5 +9,5 @@ public interface ModelCallback<T> {
     void onSuccess(T result);
     void onError(int errorCode, String errorMsg);
     void onEmpty();
-    void noNetworkError(String msg);
+    void onNetworkError(String msg);
 }

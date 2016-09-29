@@ -1,35 +1,31 @@
 package com.loveuu.vv.mvp.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loveuu.vv.R;
+import com.loveuu.vv.app.AppConstants;
 import com.loveuu.vv.base.BaseFragment;
-import com.loveuu.vv.bean.BannerListBean;
 import com.loveuu.vv.mvp.activity.SettingActivity;
+import com.loveuu.vv.mvp.contract.HomeContract;
+import com.loveuu.vv.mvp.presenter.HomePresenter;
+import com.loveuu.vv.utils.DialogManager;
 import com.loveuu.vv.utils.SceneManager;
 import com.loveuu.vv.utils.TipUtil;
 import com.mevv.library.CarouselView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by VV on 2016/9/21.
  */
 
-public class HomeFragment extends BaseFragment implements View.OnClickListener {
-    private boolean isInit = false;
-    private List<BannerListBean> sBannerList;
-    private String[] imageUrls = {"http://img.taodiantong.cn/v55183/infoimg/2013-07/130720115322ky.jpg",
-            "http://pic30.nipic.com/20130626/8174275_085522448172_2.jpg",
-            "http://pic18.nipic.com/20111215/577405_080531548148_2.jpg",
-            "http://pic15.nipic.com/20110722/2912365_092519919000_2.jpg",
-            "http://pic.58pic.com/58pic/12/64/27/55U58PICrdX.jpg"};
+public class HomeFragment extends BaseFragment implements HomeContract.View ,View.OnClickListener {
 
-    private String[] des = {"哇哈哈", "我不是你", "从你眼中发现", "我是孤独的", "一切都是虚假"};
+    private HomeContract.Presenter mPresenter;
+
     private TextView mTitle;
     private CarouselView mCarouselView;
 
@@ -48,8 +44,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void init() {
         initViews();
-        initDatas();
         initEvent();
+        mPresenter = new HomePresenter(this);
+        mPresenter.getBannerList(AppConstants.CURRENT_ADCODE);
     }
 
     private void initEvent() {
@@ -59,34 +56,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private void initViews() {
         mTitle = (TextView) mView.findViewById(R.id.tv_home_toolbar_title);
-        mCarouselView = (CarouselView) mView.findViewById(R.id.home_carouselView);
         mTitle.setText("首页");
-
-    }
-
-    private void initDatas() {
-        initCarousel(2);
-        new Handler().postDelayed(new Runnable() {
+        mCarouselView = (CarouselView) mView.findViewById(R.id.home_carouselView);
+        mCarouselView.setOnCarouselClickListener(new CarouselView.OnCarouselClickListener() {
             @Override
-            public void run() {
-                initCarousel(5);
-                isInit = true;
+            public void onCarouselClick(CarouselView.BannerInfo bannerInfo, int position) {
+                TipUtil.showToast(position+"");
             }
-        }, 3000);
-    }
+        });
 
-    private void initCarousel(int count) {
-        BannerListBean bannerListBean = null;
-        List<BannerListBean> beans = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            bannerListBean = new BannerListBean();
-            bannerListBean.img = imageUrls[i];
-            bannerListBean.name = des[i];
-            bannerListBean.url = i + "";
-            beans.add(bannerListBean);
-        }
-    }
+        mCarouselView.setPicInitListener(new CarouselView.PicInitListener() {
+            @Override
+            public void onPicInit(ImageView imageView, String url, int position) {
+                mPresenter.loadImage(imageView, url);
+            }
+        });
 
+    }
 
     @Override
     public void onClick(View view) {
@@ -104,5 +90,35 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void showProgress(String msg) {
+        DialogManager.showLoadingDialog(mContext, msg);
+    }
+
+    @Override
+    public void setPresenter(HomeContract.Presenter presenter) {
+        this.mPresenter = presenter;
+    }
+
+    @Override
+    public void hideProgress() {
+        DialogManager.dismissLoadingDialog();
+    }
+
+    @Override
+    public void networkError(String msg) {
+        TipUtil.showToast(mContext, msg);
+    }
+
+    @Override
+    public void onError(int errorCode, String errorMsg) {
+        TipUtil.showToast(mContext, errorMsg);
+    }
+
+    @Override
+    public void showBanner(List<CarouselView.BannerInfo> infoList) {
+        mCarouselView.setCarouselData(infoList);
     }
 }

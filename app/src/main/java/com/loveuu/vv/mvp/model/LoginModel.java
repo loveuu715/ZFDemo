@@ -5,6 +5,7 @@ import com.loveuu.vv.api.ICallback;
 import com.loveuu.vv.api.apifac.ApiFactory;
 import com.loveuu.vv.app.UserManager;
 import com.loveuu.vv.mvp.BaseModel;
+import com.loveuu.vv.mvp.model.imodel.ILoginModel;
 import com.loveuu.vv.utils.LogUtil;
 import com.loveuu.vv.utils.StringUtil;
 
@@ -78,7 +79,7 @@ public class LoginModel extends BaseModel implements ILoginModel {
 
             @Override
             public void noNetworkError(String msg) {
-                callback.noNetworkError(msg);
+                callback.onNetworkError(msg);
             }
         });
     }

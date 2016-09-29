@@ -3,12 +3,15 @@ package com.loveuu.vv.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.loveuu.vv.R;
+import com.loveuu.vv.app.UserManager;
+import com.loveuu.vv.mvp.activity.LoginActivity;
 import com.loveuu.vv.widget.dialog.LVCircularSmile;
 
 /**
@@ -19,6 +22,11 @@ public class DialogManager {
 
     private static Dialog sLoadingDialog;
 
+    /**
+     * 自定义progressDialog
+     * @param context
+     * @param msg
+     */
     public static void showLoadingDialog(Context context, String msg) {
         if (sLoadingDialog != null && sLoadingDialog.isShowing())
             sLoadingDialog.dismiss();
@@ -50,9 +58,37 @@ public class DialogManager {
         return sLoadingDialog;
     }
 
+    /**
+     * 隐藏自定义progressDialog
+     */
     public static void dismissLoadingDialog() {
         if (sLoadingDialog != null && sLoadingDialog.isShowing())
             sLoadingDialog.dismiss();
+    }
+
+    /**
+     * 显示token失效dialog
+     * @param context
+     */
+    public  static void showOfflineDialog(final Context context){
+        UserManager.getInstance().clearUserInfo();
+        final Dialog dialog = new Dialog(context, R.style.style_loading_dialog);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.layout_dialog_offline, null);
+        TextView textView = (TextView) v.findViewById(R.id.tv_dialog_offline_tip);
+        v.findViewById(R.id.tv_dialog_offline_confirm_tip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                SceneManager.toScene(context, LoginActivity.class, null);
+            }
+        });
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(UIUtils.dip2px(context, 240), UIUtils.dip2px(context, 120));
+        layoutParams.weight = Gravity.CENTER;
+        dialog.setContentView(v, layoutParams);// 设置布局
+        dialog.setCancelable(false);// 不可以用“返回键”取消
+        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        dialog.show();
     }
 
 }

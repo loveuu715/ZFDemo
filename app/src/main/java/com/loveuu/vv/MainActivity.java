@@ -1,57 +1,42 @@
 package com.loveuu.vv;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.loveuu.vv.app.UserManager;
+import com.loveuu.vv.base.BaseActivity;
+import com.loveuu.vv.base.eventbus.EventIds;
 import com.loveuu.vv.base.eventbus.EventObject;
 import com.loveuu.vv.mvp.fragment.ContractorFragment;
 import com.loveuu.vv.mvp.fragment.HomeFragment;
 import com.loveuu.vv.mvp.fragment.HouseSourceFragment;
 import com.loveuu.vv.mvp.fragment.UserCenterFragment;
+import com.loveuu.vv.utils.DialogManager;
 import com.loveuu.vv.utils.TipUtil;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
 import com.tencent.map.geolocation.TencentLocationRequest;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener, TencentLocationListener {
+public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener, TencentLocationListener {
 
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
 
     private ArrayList<Fragment> fragments;
-    private Unbinder mUnbinder;
     private TencentLocationManager mLocationManager;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mUnbinder = ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-        init();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                initLocation();
-            }
-        });
+    public int bindLayout() {
+        return R.layout.activity_main;
     }
 
     private void initLocation() {
@@ -62,8 +47,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         mLocationManager.requestLocationUpdates(request, this);
     }
 
+    @Override
     public void init() {
         initBottomNavigationBar();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                initLocation();
+            }
+        });
     }
 
     private void initBottomNavigationBar() {
@@ -102,18 +94,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private void setDefaultFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.main_layFrame, HomeFragment.newInstance("Home"));
+        transaction.replace(R.id.main_layFrame, fragments.get(0));
         transaction.commit();
     }
 
     @Subscribe
     public void onEvent(EventObject eo) {
+        if (eo.getEventId() == EventIds.TOKEN_INVALID){
+            DialogManager.showOfflineDialog(this);
+        }
     }
 
     @Override
     public void onBackPressed() {
         BaseApplication.getApplication().exit();
-        UserManager.getInstance().clearUserInfo();
+//        UserManager.getInstance().clearUserInfo();
         super.onBackPressed();
     }
 
@@ -152,13 +147,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mUnbinder != null)
-            mUnbinder.unbind();
-        EventBus.getDefault().unregister(this);
-    }
 
     @Override
     public void onLocationChanged(TencentLocation location, int errorCode, String reason) {

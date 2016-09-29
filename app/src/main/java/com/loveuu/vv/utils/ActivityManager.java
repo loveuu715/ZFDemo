@@ -12,7 +12,8 @@ public class ActivityManager {
     private static ActivityManager sActivityManager;
     private Stack<Activity> mStack = new Stack<Activity>();
 
-    private ActivityManager() {}
+    private ActivityManager() {
+    }
 
     public static ActivityManager getInstances() {
         if (sActivityManager == null) {
@@ -40,7 +41,9 @@ public class ActivityManager {
      *
      * @param activity
      */
-    public void removeActivityFromStack(Activity activity) {
+    public void removeActivityFromStackTop(Activity activity) {
+        if (mStack.size() == 0)
+            return;
         if (activity != null && mStack.contains(activity))
 //            mStack.peek();//取出栈顶元素并不移除
             mStack.pop();//取出栈顶元素并移除
@@ -52,6 +55,8 @@ public class ActivityManager {
      * @param activity
      */
     public void finishActivity(Activity activity) {
+        if (mStack.size() == 0)
+            return;
         if (activity != null && mStack.contains(activity) && !activity.isFinishing()) {
             mStack.remove(activity);
             activity.finish();
@@ -59,6 +64,8 @@ public class ActivityManager {
     }
 
     public void finishAll() {
+        if (mStack.size() == 0)
+            return;
         for (Activity activity : mStack) {
             if (activity != null && !activity.isFinishing())
                 activity.finish();
@@ -72,14 +79,19 @@ public class ActivityManager {
      * @return
      */
     public Activity getTopActivity() {
+        if (mStack.size() == 0)
+            return null;
         return mStack.peek();
     }
 
     /**
      * 取出栈底activity
+     *
      * @return
      */
-    public Activity getLastActivity(){
+    public Activity getLastActivity() {
+        if (mStack.size() == 0)
+            return null;
         return mStack.lastElement();
     }
 

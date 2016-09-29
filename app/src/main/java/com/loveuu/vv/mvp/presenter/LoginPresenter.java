@@ -42,7 +42,7 @@ public class LoginPresenter implements LogingContract.Presenter {
             return;
         }
 
-        mView.showProgress();
+        mView.showProgress("");
 
         mLoginModel.toLogin(account, password, new ModelCallback<String>() {
             @Override
@@ -63,7 +63,7 @@ public class LoginPresenter implements LogingContract.Presenter {
             }
 
             @Override
-            public void noNetworkError(String msg) {
+            public void onNetworkError(String msg) {
                 mView.networkError(msg);
             }
         });

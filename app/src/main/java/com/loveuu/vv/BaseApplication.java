@@ -32,6 +32,8 @@ public class BaseApplication extends Application {
 //        LeakCanary.install(this);
         initConfiguration();
         Log.i("hate", "应用已启动.......");
+//        Intent intent = new Intent(sBaseApplication, AppService.class);
+//        startService(intent);
     }
 
     private void initConfiguration() {

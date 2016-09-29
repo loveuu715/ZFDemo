@@ -1,5 +1,6 @@
 package com.loveuu.vv.mvp.activity;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.loveuu.vv.MainActivity;
@@ -7,8 +8,8 @@ import com.loveuu.vv.R;
 import com.loveuu.vv.base.BaseActivity;
 import com.loveuu.vv.mvp.contract.LogingContract;
 import com.loveuu.vv.mvp.presenter.LoginPresenter;
+import com.loveuu.vv.utils.ActivityManager;
 import com.loveuu.vv.utils.DialogManager;
-import com.loveuu.vv.utils.SceneManager;
 import com.loveuu.vv.utils.TipUtil;
 import com.loveuu.vv.widget.edittext.DelEditText;
 
@@ -38,6 +39,15 @@ public class LoginActivity extends BaseActivity implements LogingContract.View {
     @Override
     public void init() {
         mLoginPresenter = new LoginPresenter(this);
+        mDelEtPassword.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ActivityManager.getInstances().removeActivityFromStackTop(LoginActivity.this);
+                ActivityManager.getInstances().finishAll();
+                ActivityManager.getInstances().activityEnqueue(LoginActivity.this);
+            }
+        }, 200);
+
     }
 
     @OnClick({R.id.tv_forget_pass, R.id.btn_login, R.id.btn_new_regist})
@@ -57,7 +67,7 @@ public class LoginActivity extends BaseActivity implements LogingContract.View {
 
 
     @Override
-    public void showProgress() {
+    public void showProgress(String msg) {
         DialogManager.showLoadingDialog(this, "正在登录");
     }
 
@@ -68,7 +78,9 @@ public class LoginActivity extends BaseActivity implements LogingContract.View {
 
     @Override
     public void loginSuccess() {
-        SceneManager.toScene(this, MainActivity.class, null);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+//        SceneManager.toScene(this, MainActivity.class, null);
         finish();
     }
 

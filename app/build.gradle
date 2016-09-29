@@ -89,5 +89,5 @@ dependencies {
     //SuperAdapter
     compile 'org.byteam.superadapter:superadapter:3.+'
     //carouselView
-    compile 'com.mevv:carouselview:1.0.0'
+    compile 'com.mevv:carouselview:1.0.1'
 }

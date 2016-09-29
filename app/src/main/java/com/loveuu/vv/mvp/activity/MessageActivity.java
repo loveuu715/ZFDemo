@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import com.loveuu.vv.R;
 import com.loveuu.vv.base.BaseActivity;
+import com.loveuu.vv.utils.ActivityManager;
+import com.loveuu.vv.utils.DialogManager;
 
 import butterknife.BindView;
 
@@ -36,5 +38,7 @@ public class MessageActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+        DialogManager.showOfflineDialog(ActivityManager.getInstances().getTopActivity());
     }
+
 }
