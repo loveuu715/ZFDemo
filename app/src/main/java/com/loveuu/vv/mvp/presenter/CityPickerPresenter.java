@@ -23,6 +23,10 @@ public class CityPickerPresenter implements CityPickerContract.Presenter {
         mPickerModel = new CityPickerModel();
     }
 
+    public CityPickerModel getPickerModel() {
+        return mPickerModel;
+    }
+
     @Override
     public void start() {
 

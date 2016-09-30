@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loveuu.vv.R;
+import com.loveuu.vv.api.core.ApiStack;
 import com.loveuu.vv.app.AppConstants;
 import com.loveuu.vv.base.BaseActivity;
 import com.loveuu.vv.base.eventbus.EventIds;
@@ -260,5 +261,9 @@ public class CityPickerActivity extends BaseActivity implements CityPickerContra
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ApiStack.getInstance().cancel(((CityPickerPresenter)mPresenter).getPickerModel());
+    }
 }
