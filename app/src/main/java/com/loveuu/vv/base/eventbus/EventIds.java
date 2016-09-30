@@ -6,5 +6,6 @@ package com.loveuu.vv.base.eventbus;
 
 public interface EventIds {
     int DEFAULT = 1;
+    int HOME_CITY = 2;
     int TOKEN_INVALID = 9999;
 }

@@ -13,15 +13,20 @@ import android.widget.TextView;
 import com.loveuu.vv.R;
 import com.loveuu.vv.app.AppConstants;
 import com.loveuu.vv.base.BaseFragment;
+import com.loveuu.vv.base.eventbus.EventIds;
+import com.loveuu.vv.base.eventbus.EventObject;
 import com.loveuu.vv.bean.HomeLastShareBean;
-import com.loveuu.vv.mvp.activity.SettingActivity;
 import com.loveuu.vv.mvp.adapter.HomeLastShareAdapter;
 import com.loveuu.vv.mvp.contract.HomeContract;
 import com.loveuu.vv.mvp.presenter.HomePresenter;
 import com.loveuu.vv.utils.LogUtil;
 import com.loveuu.vv.utils.SceneManager;
 import com.loveuu.vv.utils.TipUtil;
+import com.loveuu.vv.widget.citypicker.CityPickerActivity;
 import com.mevv.library.CarouselView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +45,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
     private List<HomeLastShareBean> mShareBeanList;
     private ListView mListView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private TextView mTvCurrentCity;
 
     public static HomeFragment newInstance(String tag) {
         Bundle args = new Bundle();
@@ -55,6 +61,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
 
     @Override
     protected void init() {
+        EventBus.getDefault().register(this);
         initData();
         initViews();
         initEvent();
@@ -80,6 +87,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
     private void initViews() {
         mTitle = (TextView) mView.findViewById(R.id.tv_home_toolbar_title);
         mTitle.setText("首页");
+
+        mTvCurrentCity = (TextView) mView.findViewById(R.id.tv_home_toolbar_left_city);
+        mTvCurrentCity.setText(AppConstants.CURRENT_CITY);
 
         initFreshLayout();
 
@@ -142,23 +152,30 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
         }, 50);
     }
 
+    @Subscribe
+    public void onEvent(EventObject eo) {
+        if (eo.getEventId() == EventIds.HOME_CITY) {
+            mTvCurrentCity.setText(AppConstants.CURRENT_CITY);
+            LogUtil.i("hate", "当前adcode"+AppConstants.CURRENT_ADCODE);
+            LogUtil.i("hate", "当前Lat"+AppConstants.CURRENT_LAT);
+            LogUtil.i("hate", "当前Lng"+AppConstants.CURRENT_LNG);
+            mPresenter.getBannerList(AppConstants.CURRENT_ADCODE);
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_home_toolbar_right_root:
-                TipUtil.showToast("点击了城市");
+                SceneManager.toScene(mContext, CityPickerActivity.class, null);
                 break;
             case R.id.iv_home_toolbar_right:
-                SceneManager.toScene(mContext, SettingActivity.class, null);
                 break;
             case R.id.ll_home_data_statistics_rootView:
-                SceneManager.toScene(mContext, SettingActivity.class, null);
                 break;
             case R.id.ll_home_street_shoot_rootView:
-                SceneManager.toScene(mContext, SettingActivity.class, null);
                 break;
             case R.id.ll_home_news_rootView:
-                SceneManager.toScene(mContext, SettingActivity.class, null);
                 break;
         }
     }
@@ -167,6 +184,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -197,7 +215,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
 
     @Override
     public void showBanner(List<CarouselView.BannerInfo> infoList) {
-        mCarouselView.setCarouselData(infoList);
+        mCarouselView.reset(infoList);
         mSwipeRefreshLayout.setRefreshing(false);
         System.gc();
     }

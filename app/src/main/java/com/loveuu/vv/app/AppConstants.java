@@ -11,6 +11,9 @@ public class AppConstants {
 
     public static String CURRENT_CITY = DEFAULT_CITY;
     public static String CURRENT_ADCODE = DEFAULT_ADCODE;
+    public static double CURRENT_LNG = 0d;
+    public static double CURRENT_LAT = 0d;
+
 
     public static String SECRET_KEY = "rA21VeE8347bScsuIDNq";
 

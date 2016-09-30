@@ -1,10 +1,12 @@
 package com.loveuu.vv.widget.citypicker;
 
+import java.io.Serializable;
+
 /**
  * Created by VV on 2016/9/22.
  */
 
-public class SortModel {
+public class SortModel implements Serializable{
     private String name;   // 城市名
     private String sortLetters;  // 排序字母
 

@@ -23,10 +23,10 @@ public class OkHttpUtil {
 
     //设置缓存目录
     private static File cacheDirectory = new File(BaseApplication.getApplication().getCacheDir().getAbsolutePath(), "ZHCache");
-    private static Cache cache = new Cache(cacheDirectory, 10 * 1024 * 1024);
+    private static Cache cache = new Cache(cacheDirectory, 10 * 1024 * 1024);//10M
 
-    //设缓存有效期为1天
-    protected static final long CACHE_STALE_SEC = 60 * 60 * 24 * 1;
+    //设缓存有效期为3天
+    protected static final long CACHE_STALE_SEC = 60 * 60 * 24 * 3;
 
     //查询缓存的Cache-Control设置，使用缓存
     protected static final String CACHE_CONTROL_CACHE = "only-if-cached, max-stale=" + CACHE_STALE_SEC;

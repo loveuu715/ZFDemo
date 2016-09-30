@@ -45,7 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <ListView
+            android:id="@+id/lv_city_picker_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
