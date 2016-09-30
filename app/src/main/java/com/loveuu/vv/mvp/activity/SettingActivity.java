@@ -1,15 +1,11 @@
 package com.loveuu.vv.mvp.activity;
 
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
 import com.loveuu.vv.R;
 import com.loveuu.vv.base.BaseActivity;
-import com.loveuu.vv.utils.ActivityManager;
-import com.loveuu.vv.utils.DialogManager;
-import com.loveuu.vv.utils.SceneManager;
 
 import butterknife.BindView;
 
@@ -40,12 +36,5 @@ public class SettingActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-        DialogManager.showOfflineDialog(ActivityManager.getInstances().getTopActivity());
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                SceneManager.toScene(mContext ,MessageActivity.class, null);
-            }
-        }, 3000);
     }
 }

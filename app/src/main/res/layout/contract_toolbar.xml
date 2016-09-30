@@ -6,7 +6,6 @@
 
 
     <LinearLayout
-        android:id="@+id/housesource_table_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -14,39 +13,39 @@
         >
 
         <TextView
-            android:enabled="false"
-            android:id="@+id/housesource_table_new"
+            android:id="@+id/contract_toolBar_my_customer"
             android:layout_width="75dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_marginRight="-1dp"
             android:layout_weight="1"
             android:background="@drawable/home_title_text_left_selector"
+            android:enabled="false"
             android:gravity="center"
             android:padding="2dp"
-            android:text="新房"
+            android:text="我的客户"
             android:textColor="@drawable/house_title_left_text_color_selector"
             android:textSize="14sp"/>
 
         <TextView
-            android:enabled="true"
-            android:id="@+id/housesource_table_old"
+            android:id="@+id/contract_toolBar_my_agent"
             android:layout_width="75dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_marginLeft="-1dp"
             android:layout_weight="1"
             android:background="@drawable/home_title_text_right_selector"
+            android:enabled="true"
             android:gravity="center"
             android:padding="2dp"
-            android:text="二手房"
+            android:text="经纪人"
             android:textColor="@drawable/house_title_right_text_color_selector"
             android:textSize="14sp"/>
     </LinearLayout>
 
 
     <ImageView
-        android:id="@+id/iv_house_toolbar_right_search"
+        android:id="@+id/contract_toolBar_right_search"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
@@ -55,7 +54,7 @@
         android:src="@mipmap/icon_housesource_search"/>
 
     <ImageView
-        android:id="@+id/iv_house_toolbar_right_add_house"
+        android:id="@+id/contract_toolBar_right_add_contract"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"

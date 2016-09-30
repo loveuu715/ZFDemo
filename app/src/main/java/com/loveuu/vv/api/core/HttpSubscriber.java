@@ -47,10 +47,12 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Throwable>() {
                     @Override
-                    public void onCompleted() {}
+                    public void onCompleted() {
+                    }
 
                     @Override
-                    public void onError(Throwable e) {}
+                    public void onError(Throwable e) {
+                    }
 
                     @Override
                     public void onNext(Throwable throwable) {
@@ -98,11 +100,10 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
                             }
                         }
                     });
-                } else {
-                    //TODO 错误代码处理
-//                    ErrorCodeProcess.getInstance().processErrorCode(bean.getErrcode());
-                    onMyError(bean.getErrcode(), bean.getInfo());
                 }
+                //TODO 错误代码处理
+//                    ErrorCodeProcess.getInstance().processErrorCode(bean.getErrcode());
+                onMyError(bean.getErrcode(), bean.getInfo());
             }
         } else {
             //如果没返回数据没指向BaseResponse，直接返回原始json数据

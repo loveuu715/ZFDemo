@@ -2,48 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:background="@android:color/white"
               android:clickable="true"
               android:orientation="vertical">
 
     <include layout="@layout/home_toolbar"/>
 
-    <ScrollView
-        android:fillViewport="true"
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/main_bg_color">
 
-
-        <FrameLayout
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/home_list_srl_fresh"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/transparent">
 
-            <LinearLayout
+            <ListView
+                android:id="@+id/home_listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:background="@color/white"
+                android:cacheColorHint="@android:color/transparent"
+                android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
+                android:overScrollMode="never"
+                android:scrollbars="none"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-                <!--<include layout="@layout/layout_home_carousel"/>-->
-                <com.mevv.library.CarouselView
-                    android:id="@+id/home_carouselView"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <ListView
-                        android:id="@+id/home_listView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/toolbar_dropshadow"/>
-        </FrameLayout>
-    </ScrollView>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/toolbar_dropshadow"/>
+    </FrameLayout>
 </LinearLayout>

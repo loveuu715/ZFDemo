@@ -1,12 +1,14 @@
 package com.loveuu.vv.mvp.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.loveuu.vv.R;
 import com.loveuu.vv.bean.HomeLastShareBean;
 
 import java.util.List;
@@ -41,7 +43,18 @@ public class HomeLastShareAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        ShareViewHolder vh;
+        HomeLastShareBean bean = getItem(position);
+        if (convertView == null){
+            vh = new ShareViewHolder();
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_home_share, null);
+            vh.tvName = (TextView) convertView.findViewById(R.id.tv_item_home_share_name);
+            convertView.setTag(vh);
+        } else {
+            vh = (ShareViewHolder) convertView.getTag();
+        }
+        vh.tvName.setText(bean.getName());
+        return convertView;
     }
 
     static class ShareViewHolder {

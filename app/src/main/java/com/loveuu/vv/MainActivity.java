@@ -9,7 +9,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.loveuu.vv.base.BaseActivity;
 import com.loveuu.vv.base.eventbus.EventIds;
 import com.loveuu.vv.base.eventbus.EventObject;
-import com.loveuu.vv.mvp.fragment.ContractorFragment;
+import com.loveuu.vv.mvp.fragment.ContractFragment;
 import com.loveuu.vv.mvp.fragment.HomeFragment;
 import com.loveuu.vv.mvp.fragment.HouseSourceFragment;
 import com.loveuu.vv.mvp.fragment.UserCenterFragment;
@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance("Home"));
         fragments.add(HouseSourceFragment.newInstance("House"));
-        fragments.add(ContractorFragment.newInstance("Contractor"));
+        fragments.add(ContractFragment.newInstance("Contractor"));
         fragments.add(UserCenterFragment.newInstance("Center"));
         return fragments;
     }

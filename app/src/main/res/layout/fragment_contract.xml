@@ -6,7 +6,15 @@
               android:clickable="true"
               android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/contract_toolbar"/>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/toolbar_dropshadow"/>
+    </FrameLayout>
 </LinearLayout>

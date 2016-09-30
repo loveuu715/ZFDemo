@@ -26,7 +26,7 @@ public class UserCenterFragment extends BaseFragment {
 
     @Override
     protected int bindLayout() {
-        return R.layout.fragment_game;
+        return R.layout.fragment_user_center;
     }
 
     @Override

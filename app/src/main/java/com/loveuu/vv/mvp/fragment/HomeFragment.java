@@ -1,6 +1,10 @@
 package com.loveuu.vv.mvp.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -14,12 +18,12 @@ import com.loveuu.vv.mvp.activity.SettingActivity;
 import com.loveuu.vv.mvp.adapter.HomeLastShareAdapter;
 import com.loveuu.vv.mvp.contract.HomeContract;
 import com.loveuu.vv.mvp.presenter.HomePresenter;
-import com.loveuu.vv.utils.DialogManager;
 import com.loveuu.vv.utils.LogUtil;
 import com.loveuu.vv.utils.SceneManager;
 import com.loveuu.vv.utils.TipUtil;
 import com.mevv.library.CarouselView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +39,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
     private HomeLastShareAdapter mShareAdapter;
     private List<HomeLastShareBean> mShareBeanList;
     private ListView mListView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static HomeFragment newInstance(String tag) {
         Bundle args = new Bundle();
@@ -50,11 +55,21 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
 
     @Override
     protected void init() {
+        initData();
         initViews();
         initEvent();
         mPresenter = new HomePresenter(this);
         mPresenter.getBannerList(AppConstants.CURRENT_ADCODE);
         mPresenter.getShareList();
+    }
+
+    private void initData() {
+        mShareBeanList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            HomeLastShareBean bean = new HomeLastShareBean();
+            bean.setName("测试" + i);
+            mShareBeanList.add(bean);
+        }
     }
 
     private void initEvent() {
@@ -65,7 +80,25 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
     private void initViews() {
         mTitle = (TextView) mView.findViewById(R.id.tv_home_toolbar_title);
         mTitle.setText("首页");
-        mCarouselView = (CarouselView) mView.findViewById(R.id.home_carouselView);
+
+        initFreshLayout();
+
+        mListView = (ListView) mView.findViewById(R.id.home_listView);
+        mShareAdapter = new HomeLastShareAdapter(mContext, mShareBeanList);
+        mListView.setAdapter(mShareAdapter);
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                mListView.addHeaderView(initHeader());
+            }
+        });
+    }
+
+    @NonNull
+    private View initHeader() {
+        View homeHeader = LayoutInflater.from(mContext).inflate(R.layout.home_list_head, null);
+        mCarouselView = (CarouselView) homeHeader.findViewById(R.id.home_carouselView);
         mCarouselView.setOnCarouselClickListener(new CarouselView.OnCarouselClickListener() {
             @Override
             public void onCarouselClick(CarouselView.BannerInfo bannerInfo, int position) {
@@ -79,10 +112,34 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
                 mPresenter.loadImage(imageView, url);
             }
         });
-        mListView = (ListView) mView.findViewById(R.id.home_listView);
-        mShareAdapter = new HomeLastShareAdapter(mContext, mShareBeanList);
-        mListView.setAdapter(mShareAdapter);
 
+        homeHeader.findViewById(R.id.ll_home_data_statistics_rootView).setOnClickListener(this);
+        homeHeader.findViewById(R.id.ll_home_street_shoot_rootView).setOnClickListener(this);
+        homeHeader.findViewById(R.id.ll_home_news_rootView).setOnClickListener(this);
+
+        return homeHeader;
+    }
+
+    private void initFreshLayout() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.home_list_srl_fresh);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light,
+                android.R.color.holo_orange_light, android.R.color.holo_green_light);
+
+        final SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getBannerList(AppConstants.CURRENT_ADCODE);
+            }
+        };
+
+        mSwipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                onRefreshListener.onRefresh(); // 第一次必须手动调用，直接调用setRefreshing不会触发onRefresh方法
+            }
+        }, 50);
     }
 
     @Override
@@ -92,6 +149,15 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
                 TipUtil.showToast("点击了城市");
                 break;
             case R.id.iv_home_toolbar_right:
+                SceneManager.toScene(mContext, SettingActivity.class, null);
+                break;
+            case R.id.ll_home_data_statistics_rootView:
+                SceneManager.toScene(mContext, SettingActivity.class, null);
+                break;
+            case R.id.ll_home_street_shoot_rootView:
+                SceneManager.toScene(mContext, SettingActivity.class, null);
+                break;
+            case R.id.ll_home_news_rootView:
                 SceneManager.toScene(mContext, SettingActivity.class, null);
                 break;
         }
@@ -105,7 +171,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
 
     @Override
     public void showProgress(String msg) {
-        DialogManager.showLoadingDialog(mContext, msg);
     }
 
     @Override
@@ -115,28 +180,32 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Vie
 
     @Override
     public void hideProgress() {
-        DialogManager.dismissLoadingDialog();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onNetworkError(String msg) {
+        mSwipeRefreshLayout.setRefreshing(false);
         TipUtil.showToast(mContext, msg);
     }
 
     @Override
     public void onError(int errorCode, String errorMsg) {
+        mSwipeRefreshLayout.setRefreshing(false);
         TipUtil.showToast(mContext, errorMsg);
     }
 
     @Override
     public void showBanner(List<CarouselView.BannerInfo> infoList) {
         mCarouselView.setCarouselData(infoList);
+        mSwipeRefreshLayout.setRefreshing(false);
+        System.gc();
     }
 
     @Override
     public void showShare(List<HomeLastShareBean> shareBeanList) {
-        LogUtil.i("hate", shareBeanList.size()+"----------");
-        this.mShareBeanList = shareBeanList;
+        LogUtil.i("hate", shareBeanList.size() + "----------");
+//        this.mShareBeanList = shareBeanList;
 //        if (mShareAdapter != null) {
 //            mShareAdapter.notifyDataSetChanged();
 //        } else {
