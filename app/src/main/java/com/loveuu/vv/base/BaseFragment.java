@@ -8,11 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.loveuu.vv.base.eventbus.EventObject;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 /**
  * Created by VV on 2016/9/21.
  */
@@ -33,7 +28,6 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
             mView = inflater.inflate(bindLayout(), null);
-            EventBus.getDefault().register(this);
             init();
         }
         return mView;
@@ -43,12 +37,8 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract void init();
 
-    @Subscribe
-    public void onEvent(EventObject obj) {}
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }

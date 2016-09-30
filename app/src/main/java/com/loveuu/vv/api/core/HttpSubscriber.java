@@ -11,7 +11,12 @@ import com.loveuu.vv.utils.DialogManager;
 import com.loveuu.vv.utils.LogUtil;
 import com.loveuu.vv.utils.SceneManager;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
+import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by VV on 2016/9/22.
@@ -35,14 +40,29 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
     }
 
     @Override
-    public void onError(Throwable e) {
-        String stringErr = e.getLocalizedMessage();
+    public void onError(final Throwable e) {
         //TODO 需要完善异常的判断
-        if (stringErr.contains("UnknownHostException")) {
-            onMyError(NET_CONNECT_FAILED, "无法连接服务器，请检查网络是否正常");
-        } else {
-            onMyError(LOCAL_ERROR_CODE, stringErr);
-        }
+        final String stringErr = e.getLocalizedMessage();
+        Observable.just(e)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Throwable>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {}
+
+                    @Override
+                    public void onNext(Throwable throwable) {
+                        if (e instanceof SocketTimeoutException) {
+                            onMyError(NET_CONNECT_FAILED, "连接超时");
+                        } else if (e instanceof UnknownHostException) {
+                            onMyError(NET_CONNECT_FAILED, "无法连接服务器，请检查网络是否正常");
+                        } else {
+                            onMyError(NET_CONNECT_FAILED, stringErr);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -73,7 +93,6 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
                             final Activity activity = ActivityManager.getInstances().getTopActivity();
                             if (activity == null) {//只有主界面在
                                 SceneManager.toScene(BaseApplication.getApplication(), LoginActivity.class, null);
-//                                EventBus.getDefault().post(new EventObject("信息失效,请重新登录.", EventIds.TOKEN_INVALID));
                             } else {
                                 DialogManager.showOfflineDialog(activity);
                             }
