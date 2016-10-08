@@ -6,3 +6,4 @@ package com.loveuu.vv.common.update;
 
 public class Update {
 }
+

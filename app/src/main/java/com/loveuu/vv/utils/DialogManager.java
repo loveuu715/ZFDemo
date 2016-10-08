@@ -21,9 +21,11 @@ import com.loveuu.vv.widget.dialog.LVCircularSmile;
 public class DialogManager {
 
     private static Dialog sLoadingDialog;
+    private static Dialog sOfflineDialog;
 
     /**
      * 自定义progressDialog
+     *
      * @param context
      * @param msg
      */
@@ -68,27 +70,31 @@ public class DialogManager {
 
     /**
      * 显示token失效dialog
+     *
      * @param context
      */
-    public  static void showOfflineDialog(final Context context){
+    public static void showOfflineDialog(final Context context) {
         UserManager.getInstance().clearUserInfo();
-        final Dialog dialog = new Dialog(context, R.style.style_loading_dialog);
+        if (sOfflineDialog != null)
+            return;
+        sOfflineDialog = new Dialog(context, R.style.style_loading_dialog);
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.layout_dialog_offline, null);
         TextView textView = (TextView) v.findViewById(R.id.tv_dialog_offline_tip);
         v.findViewById(R.id.tv_dialog_offline_confirm_tip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                sOfflineDialog.dismiss();
+                sOfflineDialog = null;
                 SceneManager.toScene(context, LoginActivity.class, null);
             }
         });
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(UIUtils.dip2px(context, 240), UIUtils.dip2px(context, 120));
         layoutParams.weight = Gravity.CENTER;
-        dialog.setContentView(v, layoutParams);// 设置布局
-        dialog.setCancelable(false);// 不可以用“返回键”取消
-        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-        dialog.show();
+        sOfflineDialog.setContentView(v, layoutParams);// 设置布局
+        sOfflineDialog.setCancelable(false);// 不可以用“返回键”取消
+        sOfflineDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        sOfflineDialog.show();
     }
 
 }
