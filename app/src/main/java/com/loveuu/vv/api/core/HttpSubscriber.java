@@ -93,11 +93,10 @@ public abstract class HttpSubscriber<T> extends Subscriber<T> {
                         @Override
                         public void run() {
                             final Activity activity = ActivityManager.getInstances().getTopActivity();
-                            if (activity == null) {//只有主界面在
+                            if (activity == null)
                                 SceneManager.toScene(BaseApplication.getApplication(), LoginActivity.class, null);
-                            } else {
+                            else
                                 DialogManager.showOfflineDialog(activity);
-                            }
                         }
                     });
                 }
