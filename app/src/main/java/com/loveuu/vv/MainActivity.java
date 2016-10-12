@@ -1,8 +1,10 @@
 package com.loveuu.vv;
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -30,7 +32,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
-
+    @BindView(R.id.view_badge_center_tip)
+    View mCenterBadge;
     private ArrayList<Fragment> fragments;
     private TencentLocationManager mLocationManager;
 
@@ -56,9 +59,25 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 initLocation();
             }
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mCenterBadge.setVisibility(View.VISIBLE);
+            }
+        }, 5000);
+    }
+    private void initBottomNavigationBar() {
+
+        initialiseBottombar();
+
+        fragments = getFragments();
+        setDefaultFragment();
+        bottomNavigationBar.setTabSelectedListener(this);
     }
 
-    private void initBottomNavigationBar() {
+    private void initialiseBottombar() {
+
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.homelan, "首页")
@@ -67,20 +86,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                         .setActiveColorResource(R.color.main_house_color))
                 .addItem(new BottomNavigationItem(R.mipmap.tongxunlan, "联系人")
                         .setActiveColorResource(R.color.main_contract_color))
-                .addItem(new BottomNavigationItem(R.mipmap.mycenterlan, "个人中心")
+                .addItem(new BottomNavigationItem(R.mipmap.icon_center, "个人中心")
                         .setActiveColorResource(R.color.main_center_color))
                 .setFirstSelectedPosition(0)
                 .setBarBackgroundColor(R.color.bottom_bar_color)
                 .setInActiveColor(R.color.bottom_bar_def_icon)
                 .initialise();
+        bottomNavigationBar.setAutoHideEnabled(true);
 
-        fragments = getFragments();
-        setDefaultFragment();
-        bottomNavigationBar.setTabSelectedListener(this);
     }
 
     private ArrayList<Fragment> getFragments() {
-        ArrayList<Fragment> fragments = new ArrayList<>();
+        ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(HomeFragment.newInstance("Home"));
         fragments.add(HouseSourceFragment.newInstance("House"));
         fragments.add(ContractFragment.newInstance("Contractor"));
@@ -114,6 +131,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void onTabSelected(int position) {
+        if (position == 3)
+            mCenterBadge.setVisibility(View.GONE);
         if (fragments != null) {
             if (position < fragments.size()) {
                 FragmentManager fm = getSupportFragmentManager();

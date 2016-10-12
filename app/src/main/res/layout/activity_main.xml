@@ -12,10 +12,24 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
+
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/bottom_navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="58dp"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom"
+        >
+
+        <View
+            android:visibility="gone"
+            android:id="@+id/view_badge_center_tip"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_gravity="end"
+            android:layout_marginRight="31dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/badge_tip_bg"/>
+
+    </com.ashokvarma.bottomnavigation.BottomNavigationBar>
 
 </LinearLayout>

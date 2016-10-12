@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@android:color/white"
@@ -14,6 +15,7 @@
         android:background="@color/main_bg_color"
         android:fadingEdge="none"
         android:overScrollMode="never"
+        android:paddingBottom="8dp"
         android:scrollbars="none"
         >
 
@@ -24,6 +26,7 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/fl_center_main_avatar_bg"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_margin="10dp"
@@ -33,23 +36,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp">
 
-                    <ImageView
-                        android:id="@+id/touxiang"
+                    <com.loveuu.vv.widget.imageview.CircleImageView
+                        android:id="@+id/iv_center_avatar"
                         android:layout_width="80dp"
-                        android:layout_height="100dp"
+                        android:layout_height="80dp"
                         android:layout_marginBottom="15dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="15dp"
-                        android:layout_marginTop="50dp"
-                        android:src="@mipmap/default_avatar_agent"/>
+                        android:layout_marginTop="58dp"
+                        android:src="@mipmap/default_avatar_agent"
+                        app:border_color="@color/white"
+                        app:border_width="1dp"/>
 
                     <TextView
-                        android:id="@+id/tv_name"
+                        android:id="@+id/tv_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_qrcode"
+                        android:layout_below="@+id/iv_user_qrcode"
                         android:layout_centerInParent="true"
-                        android:layout_toRightOf="@+id/touxiang"
+                        android:layout_toRightOf="@+id/iv_center_avatar"
                         android:maxLines="1"
                         android:textColor="@color/white"
                         android:textSize="20sp"/>
@@ -57,20 +62,20 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_above="@+id/tv_name"
+                        android:layout_above="@+id/tv_user_name"
                         android:layout_centerInParent="true"
-                        android:layout_toLeftOf="@+id/iv_qrcode"
+                        android:layout_toLeftOf="@+id/iv_user_qrcode"
                         android:text="未认证"
                         android:textColor="@color/white"
                         android:textSize="20sp"
                         android:visibility="gone"/>
 
                     <TextView
-                        android:id="@+id/address"
+                        android:id="@+id/tv_user_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/tv_name"
-                        android:layout_below="@+id/tv_name"
+                        android:layout_alignLeft="@+id/tv_user_name"
+                        android:layout_below="@+id/tv_user_name"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
                         android:maxLines="1"
@@ -78,7 +83,7 @@
                         android:textSize="16sp"/>
 
                     <ImageView
-                        android:id="@+id/iv_qrcode"
+                        android:id="@+id/iv_user_qrcode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -98,7 +103,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/yingxiao"
+                    android:id="@+id/tv_center_marketing"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableLeft="@mipmap/icon_marketing"
@@ -119,7 +124,7 @@
                     android:background="@color/text_line"/>
 
                 <TextView
-                    android:id="@+id/jiejing"
+                    android:id="@+id/tv_center_streetscape"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableLeft="@mipmap/icon_streetscape"
@@ -140,7 +145,7 @@
                     android:background="@color/text_line"/>
 
                 <TextView
-                    android:id="@+id/hongbao"
+                    android:id="@+id/tv_center_red_package"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableLeft="@mipmap/icon_red_packet"
@@ -161,7 +166,7 @@
                     android:background="@color/text_line"/>
 
                 <TextView
-                    android:id="@+id/my_message"
+                    android:id="@+id/tv_center_my_message"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableLeft="@mipmap/icon_message"
@@ -187,7 +192,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/yuyue"
+                    android:id="@+id/tv_center_appointment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/circle_bg"
@@ -209,7 +214,7 @@
                     android:background="@color/text_line"/>
 
                 <TextView
-                    android:id="@+id/my_intention"
+                    android:id="@+id/tv_center_my_intention"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableLeft="@mipmap/icon_intention"
@@ -227,7 +232,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/xitong_setting"
+                android:id="@+id/tv_center_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
